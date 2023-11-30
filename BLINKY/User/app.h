@@ -10,6 +10,8 @@
 
 #include <ch32v00x.h>
 
+extern volatile uint8_t button;
+
 void APP_Init(void);
 
 void APP_ConfigGPIO(void);
