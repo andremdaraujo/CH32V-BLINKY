@@ -16,4 +16,6 @@ void APP_Init(void);
 
 void APP_ConfigGPIO(void);
 
+void EXTI7_0_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
+
 #endif /* USER_APP_H_ */

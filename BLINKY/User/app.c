@@ -84,8 +84,6 @@ void APP_ConfigGPIO(void)
     NVIC_Init(&NVIC_InitStructure);
 }
 
-void EXTI7_0_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
-
 void EXTI7_0_IRQHandler(void)
 {
     if(EXTI_GetITStatus(EXTI_Line0)!=RESET)

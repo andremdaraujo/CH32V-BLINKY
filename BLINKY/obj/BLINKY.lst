@@ -31,23 +31,23 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
   7 .stack        00000100  20000700  20000700  00003700  2**0
                   ALLOC
-  8 .debug_info   0000991f  00000000  00000000  00003040  2**0
+  8 .debug_info   0000971f  00000000  00000000  00003040  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_abbrev 00001f21  00000000  00000000  0000c95f  2**0
+  9 .debug_abbrev 00001ebc  00000000  00000000  0000c75f  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    0000187b  00000000  00000000  0000e880  2**0
+ 10 .debug_loc    0000187b  00000000  00000000  0000e61b  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_aranges 00000460  00000000  00000000  00010100  2**3
+ 11 .debug_aranges 00000458  00000000  00000000  0000fe98  2**3
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000420  00000000  00000000  00010560  2**3
+ 12 .debug_ranges 00000418  00000000  00000000  000102f0  2**3
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_line   000055ee  00000000  00000000  00010980  2**0
+ 13 .debug_line   000054b3  00000000  00000000  00010708  2**0
                   CONTENTS, READONLY, DEBUGGING
- 14 .debug_str    00001833  00000000  00000000  00015f6e  2**0
+ 14 .debug_str    00001822  00000000  00000000  00015bbb  2**0
                   CONTENTS, READONLY, DEBUGGING
- 15 .comment      00000033  00000000  00000000  000177a1  2**0
+ 15 .comment      00000033  00000000  00000000  000173dd  2**0
                   CONTENTS, READONLY
- 16 .debug_frame  00000854  00000000  00000000  000177d4  2**2
+ 16 .debug_frame  00000834  00000000  00000000  00017410  2**2
                   CONTENTS, READONLY, DEBUGGING
 SYMBOL TABLE:
 00000000 l    d  .init	00000000 .init
@@ -1882,15 +1882,15 @@ Disassembly of section .text:
     101c:	4449                	li	s0,18
     101e:	253a                	lhu	a4,10(a0)
     1020:	3830                	lbu	a2,19(s0)
-    1022:	0d78                	addi	a4,sp,668
-    1024:	000a                	c.slli	zero,0x2
+    1022:	2078                	lbu	a4,6(s0)
+    1024:	0a0d                	addi	s4,s4,3
     1026:	0000                	unimp
     1028:	4f495047          	fmsub.q	ft0,fs2,fs4,fs1,unknown
     102c:	5420                	lw	s0,104(s0)
     102e:	6c67676f          	jal	a4,776f4 <_data_lma+0x766b0>
     1032:	2065                	jal	10da <_data_lma+0x96>
     1034:	4554                	lw	a3,12(a0)
-    1036:	000d5453          	fadd.s	fs0,fs10,ft0,unknown
+    1036:	0d205453          	0xd205453
     103a:	0000                	unimp
     103c:	6e28                	flw	fa0,88(a2)
     103e:	6c75                	lui	s8,0x1d
