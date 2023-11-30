@@ -19,7 +19,7 @@ void APP_Init(void)
         {
             display++;
 
-            GPIO_Write(GPIOC, (display & 0x1Fu));
+            GPIO_Write(GPIOC, ((display << 1) & 0x3E));
             Delay_Ms(125);
         }
     }
