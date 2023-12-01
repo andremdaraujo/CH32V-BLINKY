@@ -2,41 +2,53 @@
  * app.c
  *
  *  Created on: Nov 22, 2023
- *      Author: Andre
+ *      Author: Andr¨¦ A. M. Ara¨²jo
  */
 
 #include "app.h"
 
-volatile uint8_t button = 0xFF;
+volatile uint8_t button_flag = 0;   // Flag for External Interrupt (configured, but unused in this example)
 
 void APP_Init(void)
 {
-    uint8_t display = 0;
+    uint8_t counter = 0;
 
-    APP_ConfigGPIO();
+    APP_GPIO_Init();    // GPIO initialization
+
+    // Blinks 3 times at 1 Hz
+    for (counter = 0; counter < 3; counter++)
+    {
+        GPIO_Write(GPIOC, 0x3E);    // PC1 to PC5
+        Delay_Ms(500);
+        GPIO_Write(GPIOC, 0x00);
+        Delay_Ms(500);
+    }
+
+    APP_GPIO_DeInit();  // Disable outputs and sets GPIO for low power mode,
+                        // except for PD0 (interrupt for waking up the MCU)
+
+    APP_Standby();      // Enter Standby Mode
+
+    APP_GPIO_Init();            // After wake up, initialize GPIO again
+    SystemCoreClockUpdate();    // Also reinitialize Clock
+    Delay_Init();               // and delay
 
     while(1)
     {
-        //if (!GPIO_ReadInputDataBit(GPIOD, GPIO_Pin_0))
-        if (button == 0)
-        {
-            display++;
-
-            GPIO_Write(GPIOC, ((display << 1) & 0x3E));
-            Delay_Ms(125);
-
-            button = 0xFF;
-        }
+        GPIO_Write(GPIOC, 0x3E);    // PC1 to PC5
+        Delay_Ms(125);
+        GPIO_Write(GPIOC, 0x00);
+        Delay_Ms(125);
     }
 }
 
-void APP_ConfigGPIO(void)
+void APP_GPIO_Init(void)
 {
     GPIO_InitTypeDef GPIO_InitStructure = {0};
     EXTI_InitTypeDef EXTI_InitStructure = {0};
     NVIC_InitTypeDef NVIC_InitStructure = {0};
 
-    // Port A - Is being used for XTAL
+// Port A is connected to HSE XTAL (unused in this example)
 
 // Port C
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);
@@ -84,12 +96,36 @@ void APP_ConfigGPIO(void)
     NVIC_Init(&NVIC_InitStructure);
 }
 
-void EXTI7_0_IRQHandler(void)
+void APP_GPIO_DeInit(void)
+{
+    GPIO_InitTypeDef GPIO_InitStructure = {0};
+
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOC | RCC_APB2Periph_GPIOD, ENABLE);
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_PWR, ENABLE);
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_All;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+
+    GPIO_Init(GPIOA, &GPIO_InitStructure);
+    GPIO_Init(GPIOC, &GPIO_InitStructure);
+    // Keep PD0 as input for External Interrupt
+}
+
+void APP_Standby(void)
+{
+    RCC_LSICmd(ENABLE);
+    while(RCC_GetFlagStatus(RCC_FLAG_LSIRDY) == RESET);
+    //PWR_AWU_SetPrescaler(PWR_AWU_Prescaler_10240);    // Auto Wake Up disabled
+    //PWR_AWU_SetWindowValue(25);
+    //PWR_AutoWakeUpCmd(ENABLE);
+    PWR_EnterSTANDBYMode(PWR_STANDBYEntry_WFI);
+}
+
+void EXTI7_0_IRQHandler(void)    // External Interrupt (configured, but unused in this example)
 {
     if(EXTI_GetITStatus(EXTI_Line0)!=RESET)
     {
         printf("Run at EXTI\r\n");
-        button = 0;
-        EXTI_ClearITPendingBit(EXTI_Line0);     /* Clear Flag */
+        button_flag = 1;
+        EXTI_ClearITPendingBit(EXTI_Line0);             // Clear Flag
     }
 }
