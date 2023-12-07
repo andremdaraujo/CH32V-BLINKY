@@ -15,6 +15,7 @@ extern volatile uint8_t button_flag;
 void APP_Init(void);
 void APP_GPIO_Init(void);
 void APP_GPIO_DeInit(void);
+
 void APP_Standby(void);
 
 void EXTI7_0_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));

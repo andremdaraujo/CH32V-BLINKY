@@ -39,34 +39,34 @@ endif
 
 # Add inputs and outputs from these tool invocations to the build variables 
 SECONDARY_FLASH += \
-BLINKY.hex \
+ANDRE_BLINKY.hex \
 
 SECONDARY_LIST += \
-BLINKY.lst \
+ANDRE_BLINKY.lst \
 
 SECONDARY_SIZE += \
-BLINKY.siz \
+ANDRE_BLINKY.siz \
 
 
 # All Target
-all: BLINKY.elf secondary-outputs
+all: ANDRE_BLINKY.elf secondary-outputs
 
 # Tool invocations
-BLINKY.elf: $(OBJS) $(USER_OBJS)
-	@	@	riscv-none-embed-gcc -march=rv32ecxw -mabi=ilp32e -msmall-data-limit=0 -msave-restore -Os -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -fno-common -Wunused -Wuninitialized  -g -T "C:\Andre\PROJECTS\CH32V\BLINKY\BLINKY\Ld\Link.ld" -nostartfiles -Xlinker --gc-sections -Wl,-Map,"BLINKY.map" --specs=nano.specs --specs=nosys.specs -o "BLINKY.elf" $(OBJS) $(USER_OBJS) $(LIBS) -lprintf
+ANDRE_BLINKY.elf: $(OBJS) $(USER_OBJS)
+	@	@	riscv-none-embed-gcc -march=rv32ecxw -mabi=ilp32e -msmall-data-limit=0 -msave-restore -Os -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -fno-common -Wunused -Wuninitialized  -g -T "C:\Andre\PROJECTS\CH32V\BLINKY\BLINKY\Ld\Link.ld" -nostartfiles -Xlinker --gc-sections -Wl,-Map,"ANDRE_BLINKY.map" --specs=nano.specs --specs=nosys.specs -o "ANDRE_BLINKY.elf" $(OBJS) $(USER_OBJS) $(LIBS) -lprintf
 	@	@
-BLINKY.hex: BLINKY.elf
-	@	riscv-none-embed-objcopy -O ihex "BLINKY.elf"  "BLINKY.hex"
+ANDRE_BLINKY.hex: ANDRE_BLINKY.elf
+	@	riscv-none-embed-objcopy -O ihex "ANDRE_BLINKY.elf"  "ANDRE_BLINKY.hex"
 	@	@
-BLINKY.lst: BLINKY.elf
-	@	riscv-none-embed-objdump --all-headers --demangle --disassemble -M xw "BLINKY.elf" > "BLINKY.lst"
+ANDRE_BLINKY.lst: ANDRE_BLINKY.elf
+	@	riscv-none-embed-objdump --all-headers --demangle --disassemble -M xw "ANDRE_BLINKY.elf" > "ANDRE_BLINKY.lst"
 	@	@
-BLINKY.siz: BLINKY.elf
-	@	riscv-none-embed-size --format=berkeley "BLINKY.elf"
+ANDRE_BLINKY.siz: ANDRE_BLINKY.elf
+	@	riscv-none-embed-size --format=berkeley "ANDRE_BLINKY.elf"
 	@	@
 # Other Targets
 clean:
-	-$(RM) $(ASM_UPPER_DEPS)$(OBJS)$(SECONDARY_FLASH)$(SECONDARY_LIST)$(SECONDARY_SIZE)$(ASM_DEPS)$(S_DEPS)$(S_UPPER_DEPS)$(C_DEPS) BLINKY.elf
+	-$(RM) $(ASM_UPPER_DEPS)$(OBJS)$(SECONDARY_FLASH)$(SECONDARY_LIST)$(SECONDARY_SIZE)$(ASM_DEPS)$(S_DEPS)$(S_UPPER_DEPS)$(C_DEPS) ANDRE_BLINKY.elf
 	-@
 secondary-outputs: $(SECONDARY_FLASH) $(SECONDARY_LIST) $(SECONDARY_SIZE)
 

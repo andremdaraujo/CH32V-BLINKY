@@ -6,12 +6,14 @@
  */
 
 #include "app.h"
+#include "pwm.h"
 
 volatile uint8_t button_flag = 0;   // Flag for External Interrupt (configured, but unused in this example)
 
 void APP_Init(void)
 {
-    uint8_t counter = 0;
+    uint16_t  counter = 0;
+    uint16_t pulse_width = 0;
 
     APP_GPIO_Init();    // GPIO initialization
 
@@ -33,12 +35,29 @@ void APP_Init(void)
     SystemCoreClockUpdate();    // Also reinitialize Clock
     Delay_Init();               // and delay
 
+    TIM1_PWMOut_Init( 1000, (48-1), 500);
+
     while(1)
     {
-        GPIO_Write(GPIOC, 0x3E);    // PC1 to PC5
-        Delay_Ms(125);
-        GPIO_Write(GPIOC, 0x00);
-        Delay_Ms(125);
+        for (counter = 0 ; counter < (1000 - 1); counter++)
+        {
+            GPIO_Write(GPIOC, 0x3E);    // PC1 to PC5
+            Delay_Ms(2);
+            GPIO_Write(GPIOC, 0x00);
+            Delay_Ms(1);
+            pulse_width++;
+            PWM_UpdatePulseWidth(pulse_width);
+        }
+
+        for (counter = 0 ; counter < (1000 - 1); counter++)
+        {
+            GPIO_Write(GPIOC, 0x3E);    // PC1 to PC5
+            Delay_Ms(2);
+            GPIO_Write(GPIOC, 0x00);
+            Delay_Ms(1);
+            pulse_width--;
+            PWM_UpdatePulseWidth(pulse_width);
+        }
     }
 }
 

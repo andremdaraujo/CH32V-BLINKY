@@ -8,19 +8,25 @@ C_SRCS += \
 ../User/app.c \
 ../User/ch32v00x_it.c \
 ../User/main.c \
-../User/system_ch32v00x.c 
+../User/pwm.c \
+../User/system_ch32v00x.c \
+../User/timer.c 
 
 OBJS += \
 ./User/app.o \
 ./User/ch32v00x_it.o \
 ./User/main.o \
-./User/system_ch32v00x.o 
+./User/pwm.o \
+./User/system_ch32v00x.o \
+./User/timer.o 
 
 C_DEPS += \
 ./User/app.d \
 ./User/ch32v00x_it.d \
 ./User/main.d \
-./User/system_ch32v00x.d 
+./User/pwm.d \
+./User/system_ch32v00x.d \
+./User/timer.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

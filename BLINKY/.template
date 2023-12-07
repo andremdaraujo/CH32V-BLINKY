@@ -1,6 +1,5 @@
 Mcu Type=CH32V00x
 Address=0x08000000
-Target Path=obj/BLINKY.hex
 Erase All=true
 Program=true
 Verify=true
@@ -15,3 +14,4 @@ Description=Website: https://www.wch.cn/products/CH32V003.html?\nThe CH32V003 se
 
 PeripheralVersion=1.6
 MCU=CH32V003F4P6
+Target Path=obj/ANDRE_BLINKY.hex
